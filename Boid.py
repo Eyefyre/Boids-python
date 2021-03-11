@@ -2,23 +2,24 @@ import pygame
 from pygame import *
 import numpy
 import random
+import math
 from Vector import Vector
 
 class Boid:
     def __init__(self,x,y,colour,surface,radius):
         self.position = Vector(x,y)
         self.velocity = Vector(random.uniform(-1,1),random.uniform(-1,1))
-        self.velocity.setMagnitude(random.choice([2,3,4]))
+        self.velocity.setMagnitude(random.choice([2,3,4,5,6,7,8,9]))
         self.acceleration = Vector(0,0) 
         self.colour = colour
         self.surface = surface
         self.radius = radius
-        self.perception = 100
-        self.maxForce = 1
+        self.perception = 75
+        self.maxForce = 0.5
         self.SEPARATION_FORCE = 1
         self.COHESION_FORCE = 1
         self.ALIGNMENT_FORCE = 1
-        self.maxSpeed = 4
+        self.maxSpeed = 6
 
 
     def draw(self):
@@ -32,8 +33,8 @@ class Boid:
 
     def edges(self):
         if self.position.x < 0 - self.radius:
-            self.position.x = 800 + self.radius
-        elif self.position.x > 800 + self.radius:
+            self.position.x = 1600 + self.radius
+        elif self.position.x > 1600 + self.radius:
             self.position.x = 0 - self.radius
         if self.position.y < 0 - self.radius:
             self.position.y = 800 + self.radius
@@ -58,7 +59,7 @@ class Boid:
         average = Vector(0,0)
         total = 0
         for boid in boids:
-            if self != boid and self.position.dist(boid.position) < self.perception + 50:
+            if self != boid and self.position.dist(boid.position) < self.perception:
                 average.add(boid.position)
                 total += 1
         if total > 0:
@@ -86,7 +87,7 @@ class Boid:
             average.subtract(self.velocity)
             average.limitMag(self.maxForce)
         return average
-
+    
     def flock(self,boids):
         alignment = self.align(boids)
         cohesion = self.cohesion(boids)
@@ -94,6 +95,7 @@ class Boid:
         alignment.scale(self.ALIGNMENT_FORCE)
         cohesion.scale(self.COHESION_FORCE)
         separation.scale(self.SEPARATION_FORCE)
+        self.acceleration.add(separation)
         self.acceleration.add(alignment)
         self.acceleration.add(cohesion)
-        self.acceleration.add(separation)
+        

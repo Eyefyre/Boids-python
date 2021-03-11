@@ -41,6 +41,12 @@ class Vector:
         e = (self.y - vec2.y) * (self.y - vec2.y)
         f = d + e
         return math.sqrt(f)
+    
+    def getAngleRadians(self):
+        return math.atan(self.y/self.x)
+
+    def getAngleDegrees(self):
+        return math.degrees(math.atan(self.y/self.x))
 
     def div(self, div):
         self.x /= div
@@ -57,6 +63,6 @@ class Vector:
 
     @staticmethod
     def sub(vec1,vec2):
-        vec = Vector(abs(vec1.x - vec2.x),abs(vec1.y-vec2.y))
+        vec = Vector(vec1.x - vec2.x,vec1.y-vec2.y)
         return vec
 
