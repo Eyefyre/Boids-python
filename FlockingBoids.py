@@ -3,7 +3,7 @@ from Boid import Boid
 import random
 
 
-WIDTH,HEIGHT = 1600,800
+WIDTH,HEIGHT = 1000,1000
 WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Boids")
 WHITE = (255,255,255)
@@ -11,12 +11,13 @@ BLACK = (0,0,0)
 GREY = (255,240,240)
 BEIGE = (249,243,221)
 RED = (255,0,0)
-BLUE = (0,0,255)
+BLUE = (0,29,67)
 FPS = 60
 
 boids = []
-for i in range(1):
-    boids.append(Boid(random.randint(0,1600),random.randint(0,800),WHITE,WINDOW,random.choice([2,3,4])))
+
+for i in range(100):
+    boids.append(Boid(random.randint(0,HEIGHT),random.randint(0,WIDTH),WHITE,WINDOW,4))
 def main():
     clock = pygame.time.Clock()
     run = True
@@ -32,7 +33,7 @@ def main():
 
 def checkMouseClick():
     mouse_pos = pygame.mouse.get_pos()
-    boids.append(Boid(mouse_pos[0],mouse_pos[1],WHITE,WINDOW,random.choice([2,3,4])))
+    boids.append(Boid(mouse_pos[0],mouse_pos[1],WHITE,WINDOW,4))
 
 def draw_all():
     draw_window()
@@ -45,7 +46,7 @@ def draw_all():
     update_display()
 
 def draw_window():
-    WINDOW.fill(BLACK)
+    WINDOW.fill(BLUE)
 
 def update_display():
     pygame.display.update()

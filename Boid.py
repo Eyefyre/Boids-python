@@ -23,7 +23,30 @@ class Boid:
 
 
     def draw(self):
-        pygame.draw.circle(self.surface,self.colour,(self.position.x,self.position.y),self.radius)
+        point1N = self.rotate(self.position.x-3.5,self.position.y+7.5)
+        point2N = self.rotate(self.position.x,self.position.y-7.5)
+        point3N = self.rotate(self.position.x+3.5,self.position.y+7.5)
+        #point4N = self.rotate(self.position.x,self.position.y)
+        pygame.draw.polygon(self.surface,self.colour,(point1N,point2N,point3N))
+        #pygame.draw.circle(self.surface,self.colour,(self.position.x,self.position.y),self.radius)
+
+    def rotate(self,px,py):
+        angle = self.velocity.getAngleRadians() + 1.5708
+        s = math.sin(angle)
+        c = math.cos(angle)
+
+        cx = self.position.x
+        cy = self.position.y
+
+        px -= cx
+        py -= cy
+
+        xnew = px * c - py * s
+        ynew = px * s + py * c
+
+        px = xnew + cx
+        py = ynew + cy
+        return (px,py)
 
     def update(self):
         self.position.add(self.velocity)
@@ -33,12 +56,12 @@ class Boid:
 
     def edges(self):
         if self.position.x < 0 - self.radius:
-            self.position.x = 1600 + self.radius
-        elif self.position.x > 1600 + self.radius:
+            self.position.x = 1000 + self.radius
+        elif self.position.x > 1000 + self.radius:
             self.position.x = 0 - self.radius
         if self.position.y < 0 - self.radius:
-            self.position.y = 800 + self.radius
-        elif self.position.y > 800 + self.radius:
+            self.position.y = 1000 + self.radius
+        elif self.position.y > 1000 + self.radius:
             self.position.y = 0 - self.radius
 
     def align(self,boids):

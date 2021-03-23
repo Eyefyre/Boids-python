@@ -43,10 +43,10 @@ class Vector:
         return math.sqrt(f)
     
     def getAngleRadians(self):
-        return math.atan(self.y/self.x)
+        return math.atan2(self.y, self.x)
 
     def getAngleDegrees(self):
-        return math.degrees(math.atan(self.y/self.x))
+        return math.degrees(self.getAngleRadians())
 
     def div(self, div):
         self.x /= div
